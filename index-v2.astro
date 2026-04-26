@@ -1,0 +1,964 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+async function getFeaturedArticle(collectionName: 'places' | 'food' | 'itineraries') {
+  const articles = await getCollection(collectionName, ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+  return articles.sort(
+    (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()
+  )[0];
+}
+
+const featuredPlace = await getFeaturedArticle('places');
+const featuredFood = await getFeaturedArticle('food');
+const featuredItinerary = await getFeaturedArticle('itineraries');
+
+const homeStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'TravelGuide',
+  name: 'Kagoshima Travel Guide',
+  description:
+    'A complete English-language travel guide to Kagoshima, Japan. Find the best places to visit, local food, hot springs, and travel itineraries.',
+  about: {
+    '@type': 'Place',
+    name: 'Kagoshima',
+    address: {
+      '@type': 'PostalAddress',
+      addressRegion: 'Kagoshima Prefecture',
+      addressCountry: 'JP',
+    },
+  },
+};
+---
+
+<BaseLayout
+  title="Kagoshima Travel Guide"
+  description="Beyond Tokyo, Kyoto, and Osaka lies Japan's most untamed prefecture. Discover Kagoshima — active volcanoes, UNESCO forests, sand baths, and the home of imo shochu."
+  ogType="website"
+  structuredData={homeStructuredData}
+>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__grid">
+      <div class="hero__copy">
+        <p class="hero__eyebrow">A guide for travelers who've already seen Tokyo</p>
+        <h1 class="hero__title">
+          Where Japan
+          <span class="hero__title-accent">still smolders.</span>
+        </h1>
+        <p class="hero__lede">
+          At the southern edge of Kyushu, an active volcano breathes ash over a city of 600,000.
+          UNESCO forests stretch south into a chain of subtropical islands. This is Kagoshima —
+          and this guide is for the second-time visitor to Japan ready to leave the Golden Route behind.
+        </p>
+        <div class="hero__actions">
+          <a href="/itineraries/" class="btn btn--primary">Plan a trip</a>
+          <a href="/places/" class="btn btn--ghost">Explore the prefecture</a>
+        </div>
+      </div>
+
+      <div class="hero__visual">
+        <div class="hero__photo hero__photo--main" aria-hidden="true">
+          <span class="hero__photo-label">Sakurajima · 31.585°N</span>
+        </div>
+        <div class="hero__photo hero__photo--accent" aria-hidden="true">
+          <span class="hero__photo-label">Yakushima cedar</span>
+        </div>
+        <div class="hero__metric">
+          <span class="hero__metric-num">880</span>
+          <span class="hero__metric-label">eruptions per year</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__scroll" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- THREE PILLARS -->
+  <section class="pillars">
+    <div class="pillars__container">
+      <p class="section-eyebrow">Three reasons to come</p>
+      <h2 class="section-title">Not one Japan, but three.</h2>
+
+      <ol class="pillars__list">
+        <li class="pillar">
+          <span class="pillar__number">01</span>
+          <h3 class="pillar__title">The volcano in the bay</h3>
+          <p class="pillar__body">
+            Sakurajima erupts hundreds of times a year, four kilometers from a city center.
+            Locals carry umbrellas for the ash. You'll never see a relationship between a
+            city and its geology like this anywhere else on earth.
+          </p>
+          <a href="/places/sakurajima/" class="pillar__link">See Sakurajima →</a>
+        </li>
+        <li class="pillar">
+          <span class="pillar__number">02</span>
+          <h3 class="pillar__title">Forests older than empires</h3>
+          <p class="pillar__body">
+            Yakushima's cedar trees have stood for thousands of years. The island inspired
+            Princess Mononoke, and walking its mossy ravines feels like walking into the film.
+            A UNESCO World Natural Heritage site since 1993.
+          </p>
+          <a href="/places/yakushima/" class="pillar__link">Visit Yakushima →</a>
+        </li>
+        <li class="pillar">
+          <span class="pillar__number">03</span>
+          <h3 class="pillar__title">A spirit you've never tried</h3>
+          <p class="pillar__body">
+            Imo shochu is distilled from sweet potatoes, and Kagoshima is the only place
+            on earth that does it well. The distilleries are open to visitors. Think single
+            malt territory, but with a flavor profile no scotch can match.
+          </p>
+          <a href="/food/imo-shochu/" class="pillar__link">Taste imo shochu →</a>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- GEOGRAPHY -->
+  <section class="geography">
+    <div class="geography__container">
+      <div class="geography__intro">
+        <p class="section-eyebrow">The lay of the land</p>
+        <h2 class="section-title">From volcanic peaks to coral reefs.</h2>
+        <p class="geography__lede">
+          Kagoshima Prefecture stretches from southern Kyushu down through 600 kilometers of
+          islands toward Okinawa. Most travelers focus on the mainland, but the
+          Satsunan Islands hold some of Japan's most unspoiled landscapes.
+        </p>
+      </div>
+
+      <div class="geography__regions">
+        <a href="/places/" class="region region--01">
+          <span class="region__label">Region 01</span>
+          <h3 class="region__name">Kagoshima City</h3>
+          <p class="region__desc">The capital, the volcano, and the gateway to everything south.</p>
+        </a>
+        <a href="/places/" class="region region--02">
+          <span class="region__label">Region 02</span>
+          <h3 class="region__name">Satsuma Peninsula</h3>
+          <p class="region__desc">Sand baths in Ibusuki and the historic Chiran samurai district.</p>
+        </a>
+        <a href="/places/" class="region region--03">
+          <span class="region__label">Region 03</span>
+          <h3 class="region__name">Kirishima</h3>
+          <p class="region__desc">Volcanic peaks, ancient shrines, and mountain hot springs.</p>
+        </a>
+        <a href="/places/" class="region region--04">
+          <span class="region__label">Region 04</span>
+          <h3 class="region__name">The Islands</h3>
+          <p class="region__desc">Yakushima, Amami Oshima, and the subtropical Satsunan chain.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ITINERARIES -->
+  <section class="itineraries-feature">
+    <div class="itineraries-feature__container">
+      <div class="itineraries-feature__header">
+        <p class="section-eyebrow">Pre-built trips</p>
+        <h2 class="section-title">How long do you have?</h2>
+      </div>
+      <ul class="itineraries-feature__list">
+        <li class="itin-card itin-card--featured">
+          <a href="/itineraries/" class="itin-card__link">
+            <div class="itin-card__duration">
+              <span class="itin-card__num">2</span>
+              <span class="itin-card__unit">days</span>
+            </div>
+            <h3 class="itin-card__title">First-timer's Kagoshima</h3>
+            <p class="itin-card__desc">
+              Sakurajima, Sengan-en, kurobuta dinner in Tenmonkan, and a sand bath in
+              Ibusuki. The essential introduction.
+            </p>
+            <span class="itin-card__cta">Read the plan →</span>
+          </a>
+        </li>
+        <li class="itin-card">
+          <a href="/itineraries/" class="itin-card__link">
+            <div class="itin-card__duration">
+              <span class="itin-card__num">5</span>
+              <span class="itin-card__unit">days</span>
+            </div>
+            <h3 class="itin-card__title">Mainland deep-dive</h3>
+            <p class="itin-card__desc">Add Kirishima, Chiran, and a shochu distillery tour.</p>
+            <span class="itin-card__cta">Coming soon</span>
+          </a>
+        </li>
+        <li class="itin-card">
+          <a href="/itineraries/" class="itin-card__link">
+            <div class="itin-card__duration">
+              <span class="itin-card__num">7</span>
+              <span class="itin-card__unit">days</span>
+            </div>
+            <h3 class="itin-card__title">Mainland + Yakushima</h3>
+            <p class="itin-card__desc">The complete circuit including the UNESCO forest.</p>
+            <span class="itin-card__cta">Coming soon</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FOOD CULTURE -->
+  <section class="food-feature">
+    <div class="food-feature__container">
+      <div class="food-feature__visual" aria-hidden="true">
+        <div class="food-feature__shape food-feature__shape--1"></div>
+        <div class="food-feature__shape food-feature__shape--2"></div>
+        <div class="food-feature__shape food-feature__shape--3"></div>
+      </div>
+      <div class="food-feature__copy">
+        <p class="section-eyebrow">A taste of the south</p>
+        <h2 class="section-title section-title--reverse">
+          Black pork, sweet potato spirit, and shaved ice the size of your head.
+        </h2>
+        <p class="food-feature__body">
+          Kagoshima's cuisine is unmistakably its own. The kurobuta black pig has been bred
+          here for over 400 years. The imo shochu distilling tradition predates Scotch whisky.
+          And shirokuma — a mountain of shaved ice topped with fruit — was invented in
+          Tenmonkan in the 1940s.
+        </p>
+        <a href="/food/" class="btn btn--primary">Eat your way through →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRACTICAL -->
+  <section class="practical">
+    <div class="practical__container">
+      <p class="section-eyebrow">Practical info</p>
+      <h2 class="section-title">Getting in, getting around.</h2>
+      <div class="practical__grid">
+        <a href="/getting-there/" class="practical-card">
+          <div class="practical-card__icon" aria-hidden="true">→</div>
+          <h3 class="practical-card__title">Getting there</h3>
+          <p class="practical-card__desc">
+            Shinkansen from Hakata in 1h 20m. Flights from Tokyo in 1h 50m. Ferry options
+            from Osaka and Okinawa.
+          </p>
+        </a>
+        <a href="/getting-around/" class="practical-card">
+          <div class="practical-card__icon" aria-hidden="true">↻</div>
+          <h3 class="practical-card__title">Getting around</h3>
+          <p class="practical-card__desc">
+            City trams, the Sakurajima ferry, the Ibusuki no Tamatebako sightseeing train,
+            and rental cars for the rural south.
+          </p>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* DESIGN TOKENS */
+  :root {
+    --ash-50: #f5f4f1;
+    --ash-100: #e8e6e0;
+    --ash-300: #b5b1a8;
+    --ash-600: #4a4742;
+    --ash-900: #1a1816;
+
+    --indigo-50: #eef1f5;
+    --indigo-500: #2a4a6e;
+    --indigo-700: #1a3354;
+    --indigo-900: #0d1e35;
+
+    --ember-500: #c14627;
+    --ember-700: #8a2f1a;
+
+    --steam: #fbfaf7;
+    --moss-500: #4a6b3a;
+
+    --font-display: 'Fraunces', 'Times New Roman', serif;
+    --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  :global(body) {
+    background: var(--steam);
+    color: var(--ash-900);
+    font-family: var(--font-body);
+  }
+
+  /* Common section styles */
+  .section-eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember-500);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ash-900);
+    margin: 0 0 2rem;
+    max-width: 24ch;
+  }
+
+  .section-title--reverse {
+    color: var(--steam);
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    border: 1.5px solid transparent;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn--primary {
+    background: var(--ash-900);
+    color: var(--steam);
+    border-color: var(--ash-900);
+  }
+
+  .btn--primary:hover {
+    background: var(--indigo-700);
+    border-color: var(--indigo-700);
+    transform: translateY(-1px);
+  }
+
+  .btn--ghost {
+    background: transparent;
+    color: var(--ash-900);
+    border-color: var(--ash-900);
+  }
+
+  .btn--ghost:hover {
+    background: var(--ash-900);
+    color: var(--steam);
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: calc(100vh - 80px);
+    padding: 4rem 2rem 6rem;
+    background: var(--steam);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(135deg, transparent 0%, var(--ash-50) 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero__grid {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    min-height: calc(100vh - 200px);
+  }
+
+  .hero__copy { max-width: 560px; }
+
+  .hero__eyebrow {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--ember-500);
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--ash-300);
+    display: inline-block;
+  }
+
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--ash-900);
+    margin: 0 0 2rem;
+  }
+
+  .hero__title-accent {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ember-700);
+  }
+
+  .hero__lede {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--ash-600);
+    margin-bottom: 2.5rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .hero__visual {
+    position: relative;
+    height: 600px;
+  }
+
+  .hero__photo {
+    position: absolute;
+    background: var(--ash-100);
+    overflow: hidden;
+  }
+
+  .hero__photo--main {
+    top: 0;
+    right: 0;
+    width: 80%;
+    height: 70%;
+    background: linear-gradient(135deg, var(--ash-300) 0%, var(--ash-600) 100%);
+  }
+
+  .hero__photo--main::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 30% 70%, rgba(193, 70, 39, 0.4) 0%, transparent 50%),
+      radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 40%);
+  }
+
+  .hero__photo--accent {
+    bottom: 0;
+    left: 0;
+    width: 60%;
+    height: 50%;
+    background: linear-gradient(135deg, var(--moss-500) 0%, var(--indigo-700) 100%);
+  }
+
+  .hero__photo-label {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    font-size: 0.75rem;
+    color: var(--steam);
+    font-family: var(--font-body);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  .hero__metric {
+    position: absolute;
+    top: 50%;
+    left: -2rem;
+    transform: translateY(-50%);
+    background: var(--steam);
+    padding: 1.5rem 2rem;
+    border: 1px solid var(--ash-300);
+    z-index: 2;
+    box-shadow: -8px 8px 0 var(--ember-700);
+  }
+
+  .hero__metric-num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 400;
+    color: var(--ember-700);
+    line-height: 1;
+  }
+
+  .hero__metric-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ash-600);
+  }
+
+  .hero__scroll {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash-600);
+  }
+
+  .hero__scroll-line {
+    width: 1px;
+    height: 40px;
+    background: var(--ash-300);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero__scroll-line::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: var(--ash-900);
+    animation: scroll-down 2s ease-in-out infinite;
+  }
+
+  @keyframes scroll-down {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(80px); }
+  }
+
+  /* PILLARS */
+  .pillars {
+    padding: 8rem 2rem;
+    background: var(--ash-900);
+    color: var(--steam);
+  }
+
+  .pillars__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .pillars .section-eyebrow { color: var(--ember-500); }
+  .pillars .section-title {
+    color: var(--steam);
+    margin-bottom: 4rem;
+  }
+
+  .pillars__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+
+  .pillar {
+    border-top: 1px solid var(--ash-600);
+    padding-top: 2rem;
+  }
+
+  .pillar__number {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--ember-500);
+    letter-spacing: 0.1em;
+  }
+
+  .pillar__title {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--steam);
+    margin: 1rem 0 1.5rem;
+  }
+
+  .pillar__body {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--ash-300);
+    margin-bottom: 1.5rem;
+  }
+
+  .pillar__link {
+    color: var(--steam);
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid var(--ember-500);
+    padding-bottom: 2px;
+    transition: all 0.2s;
+  }
+
+  .pillar__link:hover { color: var(--ember-500); }
+
+  /* GEOGRAPHY */
+  .geography {
+    padding: 8rem 2rem;
+    background: var(--steam);
+  }
+
+  .geography__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .geography__intro {
+    max-width: 700px;
+    margin-bottom: 4rem;
+  }
+
+  .geography__lede {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--ash-600);
+  }
+
+  .geography__regions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .region {
+    display: block;
+    padding: 2.5rem 2rem;
+    background: var(--ash-50);
+    text-decoration: none;
+    color: var(--ash-900);
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .region:hover {
+    border-color: var(--indigo-700);
+    transform: translateY(-2px);
+  }
+
+  .region::after {
+    content: '→';
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-size: 1.5rem;
+    color: var(--ash-300);
+    transition: all 0.3s;
+  }
+
+  .region:hover::after {
+    color: var(--ember-500);
+    transform: translateX(4px);
+  }
+
+  .region__label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember-500);
+  }
+
+  .region__name {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 400;
+    margin: 0.75rem 0 1rem;
+    color: var(--ash-900);
+  }
+
+  .region__desc {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--ash-600);
+    margin: 0;
+  }
+
+  /* ITINERARIES */
+  .itineraries-feature {
+    padding: 8rem 2rem;
+    background: var(--indigo-900);
+    color: var(--steam);
+  }
+
+  .itineraries-feature__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .itineraries-feature__header {
+    margin-bottom: 4rem;
+  }
+
+  .itineraries-feature .section-eyebrow { color: var(--ember-500); }
+  .itineraries-feature .section-title { color: var(--steam); }
+
+  .itineraries-feature__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .itin-card {
+    background: var(--indigo-700);
+    transition: all 0.3s;
+  }
+
+  .itin-card--featured {
+    background: var(--steam);
+    color: var(--ash-900);
+  }
+
+  .itin-card:hover { transform: translateY(-4px); }
+
+  .itin-card__link {
+    display: block;
+    padding: 2rem;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+  }
+
+  .itin-card__duration {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .itin-card__num {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--ember-500);
+  }
+
+  .itin-card--featured .itin-card__num {
+    color: var(--ember-700);
+  }
+
+  .itin-card__unit {
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: inherit;
+    opacity: 0.7;
+  }
+
+  .itin-card__title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 0 0 1rem;
+  }
+
+  .itin-card__desc {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .itin-card__cta {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ember-500);
+  }
+
+  .itin-card--featured .itin-card__cta {
+    color: var(--ember-700);
+  }
+
+  /* FOOD FEATURE */
+  .food-feature {
+    padding: 8rem 2rem;
+    background: var(--ember-700);
+    color: var(--steam);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .food-feature__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .food-feature .section-eyebrow {
+    color: var(--ash-100);
+  }
+
+  .food-feature__body {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--ash-100);
+    margin-bottom: 2rem;
+  }
+
+  .food-feature__visual {
+    position: relative;
+    height: 400px;
+  }
+
+  .food-feature__shape {
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  .food-feature__shape--1 {
+    width: 280px;
+    height: 280px;
+    background: var(--ember-500);
+    top: 0;
+    left: 0;
+  }
+
+  .food-feature__shape--2 {
+    width: 180px;
+    height: 180px;
+    background: var(--ash-900);
+    top: 60px;
+    right: 40px;
+  }
+
+  .food-feature__shape--3 {
+    width: 120px;
+    height: 120px;
+    background: var(--steam);
+    bottom: 0;
+    left: 100px;
+    opacity: 0.9;
+  }
+
+  .food-feature .btn--primary {
+    background: var(--steam);
+    color: var(--ash-900);
+    border-color: var(--steam);
+  }
+
+  .food-feature .btn--primary:hover {
+    background: var(--ash-900);
+    color: var(--steam);
+  }
+
+  /* PRACTICAL */
+  .practical {
+    padding: 8rem 2rem;
+    background: var(--steam);
+  }
+
+  .practical__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .practical__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .practical-card {
+    display: block;
+    padding: 3rem;
+    background: white;
+    border: 1px solid var(--ash-100);
+    text-decoration: none;
+    color: var(--ash-900);
+    transition: all 0.2s;
+  }
+
+  .practical-card:hover {
+    border-color: var(--indigo-500);
+    transform: translateY(-2px);
+  }
+
+  .practical-card__icon {
+    font-size: 2rem;
+    color: var(--ember-500);
+    margin-bottom: 1.5rem;
+  }
+
+  .practical-card__title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin: 0 0 1rem;
+  }
+
+  .practical-card__desc {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--ash-600);
+    margin: 0;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .hero__grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .hero__visual {
+      height: 400px;
+      order: 2;
+    }
+    .pillars__list {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .geography__regions { grid-template-columns: 1fr; }
+    .itineraries-feature__list { grid-template-columns: 1fr; }
+    .food-feature__container { grid-template-columns: 1fr; }
+    .practical__grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding: 3rem 1.5rem 4rem; }
+    .hero__title { font-size: clamp(2.5rem, 10vw, 3.5rem); }
+
+    .pillars,
+    .geography,
+    .itineraries-feature,
+    .food-feature,
+    .practical {
+      padding: 5rem 1.5rem;
+    }
+
+    .hero__metric {
+      left: 1rem;
+      padding: 1rem 1.5rem;
+    }
+    .hero__metric-num { font-size: 2rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__scroll-line::after { animation: none; }
+  }
+</style>

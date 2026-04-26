@@ -1,0 +1,263 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  canonicalUrl?: string;
+  // JSON-LD構造化データ(ページごとに異なる)
+  structuredData?: Record<string, unknown>;
+  // ページタイプ(OGPの og:type)
+  ogType?: 'website' | 'article';
+}
+
+const {
+  title,
+  description,
+  ogImage = '/images/og-default.jpg',
+  ogImageAlt = 'Kagoshima Travel Guide',
+  canonicalUrl = Astro.url.href,
+  structuredData,
+  ogType = 'article',
+} = Astro.props;
+
+// サイト名(astro.config.mjsのsite設定と整合させる)
+const SITE_NAME = 'Kagoshima Travel Guide';
+
+// titleの組み立て:トップページ以外は「記事タイトル | サイト名」
+const fullTitle = title === SITE_NAME ? title : `${title} | ${SITE_NAME}`;
+
+// OGP画像の絶対URL(SNSシェア時に必要)
+const ogImageUrl = new URL(ogImage, Astro.site).toString();
+
+// サイト全体の構造化データ(WebSite)
+// 個別ページの構造化データと併用される
+const websiteStructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE_NAME,
+  url: Astro.site?.toString(),
+  description: 'A complete English-language guide to traveling in Kagoshima, Japan.',
+  inLanguage: 'en',
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- 基本SEO -->
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- 言語とロケール -->
+    <meta http-equiv="content-language" content="en" />
+
+    <!-- ファビコン -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph (Facebook, LinkedIn) -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    <!-- 検索エンジン制御 -->
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+
+    <!-- パフォーマンス最適化 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- フォント(本番では self-host を検討) -->
+    <!-- Fraunces: editorial serif、表情豊か / Plus Jakarta Sans: 端正なヒューマニスト -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- 構造化データ:サイト全体 (WebSite) -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(websiteStructuredData)}
+    />
+
+    <!-- 構造化データ:ページ固有(あれば) -->
+    {structuredData && (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(structuredData)}
+      />
+    )}
+
+    <!-- ジェネレーター(Astroの慣例) -->
+    <meta name="generator" content={Astro.generator} />
+  </head>
+
+  <body class="min-h-screen flex flex-col">
+    <!-- ヘッダー -->
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/" class="site-logo">
+          <span class="site-logo__main">Kagoshima</span>
+          <span class="site-logo__sub">Travel Guide</span>
+        </a>
+        <ul class="site-nav__list">
+          <li><a href="/itineraries/" class="site-nav__link">Itineraries</a></li>
+          <li><a href="/places/" class="site-nav__link">Places</a></li>
+          <li><a href="/food/" class="site-nav__link">Food</a></li>
+          <li><a href="/onsen/" class="site-nav__link">Onsen</a></li>
+          <li><a href="/getting-there/" class="site-nav__link">Getting There</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <!-- フッター -->
+    <footer class="site-footer">
+      <div class="site-footer__container">
+        <div class="site-footer__brand">
+          <span class="site-logo__main">Kagoshima Travel Guide</span>
+          <p class="site-footer__tagline">Beyond the Golden Route.</p>
+        </div>
+        <p class="site-footer__copyright">&copy; {new Date().getFullYear()} {SITE_NAME}. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <style is:global>
+      /* Site-wide header & footer styles */
+      .site-header {
+        background: var(--steam, #fbfaf7);
+        border-bottom: 1px solid var(--ash-100, #e8e6e0);
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(8px);
+        background: rgba(251, 250, 247, 0.92);
+      }
+
+      .site-nav {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 1.25rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .site-logo {
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        line-height: 1;
+      }
+
+      .site-logo__main {
+        font-family: 'Fraunces', serif;
+        font-size: 1.375rem;
+        font-weight: 500;
+        color: #1a1816;
+        letter-spacing: -0.02em;
+      }
+
+      .site-logo__sub {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #c14627;
+        margin-top: 4px;
+      }
+
+      .site-nav__list {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .site-nav__link {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #4a4742;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .site-nav__link:hover {
+        color: #c14627;
+      }
+
+      @media (max-width: 768px) {
+        .site-nav__list {
+          gap: 1rem;
+        }
+        .site-nav__link {
+          font-size: 0.8125rem;
+        }
+      }
+
+      .site-footer {
+        background: #1a1816;
+        color: #b5b1a8;
+        padding: 4rem 2rem 2rem;
+        margin-top: 0;
+      }
+
+      .site-footer__container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .site-footer__brand {
+        margin-bottom: 3rem;
+      }
+
+      .site-footer__brand .site-logo__main {
+        color: #fbfaf7;
+        font-size: 1.75rem;
+      }
+
+      .site-footer__tagline {
+        font-family: 'Fraunces', serif;
+        font-style: italic;
+        font-size: 1rem;
+        color: #b5b1a8;
+        margin: 0.5rem 0 0;
+      }
+
+      .site-footer__copyright {
+        font-size: 0.8125rem;
+        color: #4a4742;
+        padding-top: 2rem;
+        border-top: 1px solid #4a4742;
+      }
+    </style>
+  </body>
+</html>
