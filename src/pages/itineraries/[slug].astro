@@ -1,0 +1,201 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const itineraries = await getCollection('itineraries', ({ data }) => !data.draft);
+  return itineraries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogType="article"
+>
+  <article>
+    <header class="article-header">
+      <div class="article-header__container">
+        <div class="article-header__meta">
+          <a href="/itineraries/" class="back-link">← Itineraries</a>
+          <span class="days-tag">
+            <span class="days-tag__num">{entry.data.days}</span>
+            <span class="days-tag__unit">days</span>
+          </span>
+        </div>
+        <h1 class="article-header__title">{entry.data.title}</h1>
+        <p class="article-header__desc">{entry.data.description}</p>
+      </div>
+    </header>
+
+    <div class="article-body">
+      <div class="article-body__container">
+        <Content />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  :root {
+    --ash-50: #f5f4f1;
+    --ash-100: #e8e6e0;
+    --ash-300: #b5b1a8;
+    --ash-600: #4a4742;
+    --ash-900: #1a1816;
+    --ember-500: #c14627;
+    --ember-700: #8a2f1a;
+    --indigo-700: #1a3354;
+    --indigo-900: #0d1e35;
+    --steam: #fbfaf7;
+    --font-display: 'Fraunces', 'Times New Roman', serif;
+    --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  .article-header {
+    padding: 6rem 2rem 5rem;
+    background: var(--indigo-900);
+    color: var(--steam);
+  }
+
+  .article-header__container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .article-header__meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .back-link {
+    font-size: 0.875rem;
+    color: var(--ash-300);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover { color: var(--steam); }
+
+  .days-tag {
+    display: flex;
+    align-items: baseline;
+    gap: 0.375rem;
+  }
+
+  .days-tag__num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--ember-500);
+    line-height: 1;
+  }
+
+  .days-tag__unit {
+    font-size: 0.8125rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ash-300);
+  }
+
+  .article-header__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--steam);
+    margin: 0 0 1.5rem;
+  }
+
+  .article-header__desc {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--ash-300);
+    margin: 0;
+    max-width: 600px;
+  }
+
+  .article-body {
+    padding: 5rem 2rem 8rem;
+    background: var(--steam);
+  }
+
+  .article-body__container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .article-body__container :global(h2) {
+    font-family: var(--font-display);
+    font-size: 1.875rem;
+    font-weight: 400;
+    color: var(--ash-900);
+    margin: 3rem 0 1rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--ash-100);
+  }
+
+  .article-body__container :global(h2:first-child) {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .article-body__container :global(h3) {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 400;
+    color: var(--ash-900);
+    margin: 2rem 0 0.75rem;
+  }
+
+  .article-body__container :global(p) {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: var(--ash-600);
+    margin: 0 0 1.5rem;
+  }
+
+  .article-body__container :global(strong) {
+    font-weight: 600;
+    color: var(--ash-900);
+  }
+
+  .article-body__container :global(a) {
+    color: var(--ember-700);
+    text-underline-offset: 3px;
+  }
+
+  .article-body__container :global(ul),
+  .article-body__container :global(ol) {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .article-body__container :global(li) {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--ash-600);
+    margin-bottom: 0.5rem;
+  }
+
+  .article-body__container :global(hr) {
+    border: none;
+    border-top: 1px solid var(--ash-100);
+    margin: 3rem 0;
+  }
+
+  @media (max-width: 640px) {
+    .article-header { padding: 4rem 1.5rem 3rem; }
+    .article-body { padding: 3rem 1.5rem 5rem; }
+  }
+</style>

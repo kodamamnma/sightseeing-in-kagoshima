@@ -1,0 +1,287 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const itineraries = await getCollection('itineraries', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+itineraries.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+
+const plans = [
+  {
+    days: 2,
+    title: "First-timer's Kagoshima",
+    desc: 'Sakurajima, Sengan-en, kurobuta dinner in Tenmonkan, and a sand bath in Ibusuki. The essential introduction.',
+    status: 'available',
+  },
+  {
+    days: 5,
+    title: 'Mainland deep-dive',
+    desc: 'Add Kirishima, Chiran, and a shochu distillery tour to the 2-day base.',
+    status: 'coming-soon',
+  },
+  {
+    days: 7,
+    title: 'Mainland + Yakushima',
+    desc: 'The complete circuit, including two nights on the UNESCO forest island.',
+    status: 'coming-soon',
+  },
+];
+---
+
+<BaseLayout
+  title="Itineraries"
+  description="Pre-built travel itineraries for Kagoshima — 2-day, 5-day, and 7-day plans designed for the independent traveler."
+  ogType="website"
+>
+  <section class="page-hero">
+    <div class="page-hero__container">
+      <p class="eyebrow">Pre-built trips</p>
+      <h1 class="page-hero__title">How long do you have?</h1>
+      <p class="page-hero__lede">
+        Day-by-day itineraries designed for independent travelers.
+        No tour buses, no rushed temples.
+      </p>
+    </div>
+  </section>
+
+  <section class="plans">
+    <div class="plans__container">
+      <ul class="plans__list">
+        {plans.map((plan) => (
+          <li class={`plan-card ${plan.status === 'available' ? 'plan-card--available' : ''}`}>
+            <div class="plan-card__duration">
+              <span class="plan-card__num">{plan.days}</span>
+              <span class="plan-card__unit">days</span>
+            </div>
+            <div class="plan-card__body">
+              <h2 class="plan-card__title">{plan.title}</h2>
+              <p class="plan-card__desc">{plan.desc}</p>
+              {plan.status === 'available' ? (
+                <span class="plan-card__cta">Read the plan →</span>
+              ) : (
+                <span class="plan-card__soon">Coming soon</span>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {itineraries.length > 0 && (
+    <section class="articles">
+      <div class="articles__container">
+        <p class="eyebrow">All itineraries</p>
+        <ul class="articles__grid">
+          {itineraries.map((item) => (
+            <li>
+              <a href={`/itineraries/${item.slug}/`} class="article-card">
+                <h3 class="article-card__title">{item.data.title}</h3>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  :root {
+    --ash-100: #e8e6e0;
+    --ash-300: #b5b1a8;
+    --ash-600: #4a4742;
+    --ash-900: #1a1816;
+    --ember-500: #c14627;
+    --ember-700: #8a2f1a;
+    --indigo-700: #1a3354;
+    --indigo-900: #0d1e35;
+    --steam: #fbfaf7;
+    --font-display: 'Fraunces', 'Times New Roman', serif;
+    --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember-500);
+    margin-bottom: 1rem;
+  }
+
+  .page-hero {
+    padding: 6rem 2rem 5rem;
+    background: var(--indigo-900);
+    color: var(--steam);
+  }
+
+  .page-hero__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .page-hero .eyebrow { color: var(--ember-500); }
+
+  .page-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5rem);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--steam);
+    margin: 0 0 1.5rem;
+  }
+
+  .page-hero__lede {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--ash-300);
+    max-width: 600px;
+    margin: 0;
+  }
+
+  .plans {
+    padding: 6rem 2rem;
+    background: var(--steam);
+  }
+
+  .plans__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .plans__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .plan-card {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start;
+    padding: 2.5rem 3rem;
+    background: var(--ash-900);
+    color: var(--steam);
+  }
+
+  .plan-card--available {
+    background: var(--indigo-700);
+    cursor: pointer;
+  }
+
+  .plan-card__duration {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    width: 120px;
+  }
+
+  .plan-card__num {
+    font-family: var(--font-display);
+    font-size: 5rem;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--ember-500);
+  }
+
+  .plan-card__unit {
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ash-300);
+  }
+
+  .plan-card__body { flex: 1; }
+
+  .plan-card__title {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 400;
+    margin: 0 0 1rem;
+    color: var(--steam);
+  }
+
+  .plan-card__desc {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--ash-300);
+    margin: 0 0 1.5rem;
+  }
+
+  .plan-card__cta {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ember-500);
+  }
+
+  .plan-card__soon {
+    font-size: 0.875rem;
+    color: var(--ash-600);
+    letter-spacing: 0.05em;
+  }
+
+  .articles {
+    padding: 6rem 2rem;
+    background: white;
+    border-top: 1px solid var(--ash-100);
+  }
+
+  .articles__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .articles__grid {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .article-card {
+    display: block;
+    padding: 2rem;
+    background: var(--ash-50);
+    text-decoration: none;
+    color: var(--ash-900);
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+
+  .article-card:hover {
+    border-color: var(--ember-500);
+    transform: translateY(-2px);
+  }
+
+  .article-card__title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .plan-card {
+      flex-direction: column;
+      gap: 1rem;
+      padding: 2rem;
+    }
+    .plan-card__duration { width: auto; }
+    .articles__grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    .page-hero { padding: 4rem 1.5rem 3rem; }
+    .plans, .articles { padding: 4rem 1.5rem; }
+  }
+</style>

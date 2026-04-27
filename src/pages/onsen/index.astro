@@ -1,0 +1,244 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const onsenAreas = [
+  {
+    name: 'Ibusuki',
+    type: 'Sand bath (sunamushi)',
+    desc: 'Buried up to the neck in naturally heated black sand at the sea\'s edge. The most distinctive onsen experience in Japan.',
+    region: 'Satsuma Peninsula',
+  },
+  {
+    name: 'Kirishima',
+    type: 'Mountain hot springs',
+    desc: 'Dozens of ryokan and public baths spread across the volcanic highlands. Milky white, sulfuric, and incredibly restorative.',
+    region: 'Kirishima',
+  },
+  {
+    name: 'Kagoshima City',
+    type: 'Urban sento',
+    desc: 'The city is honeycombed with public baths. Shiroyama and Hayashida are the most popular with travelers.',
+    region: 'Kagoshima City',
+  },
+  {
+    name: 'Yakushima',
+    type: 'Riverside & coastal',
+    desc: 'Hirauchi Kaichu Onsen is submerged at high tide and revealed at low tide — a hot spring on the ocean floor.',
+    region: 'The Islands',
+  },
+];
+---
+
+<BaseLayout
+  title="Onsen"
+  description="Kagoshima's hot springs range from sand baths in Ibusuki to mountain ryokan in Kirishima. A guide to bathing well in Japan's south."
+  ogType="website"
+>
+  <section class="page-hero">
+    <div class="page-hero__container">
+      <p class="eyebrow">Hot springs</p>
+      <h1 class="page-hero__title">Onsen.</h1>
+      <p class="page-hero__lede">
+        Kagoshima sits on one of the world's most active volcanic systems.
+        The hot water that results is extraordinary.
+      </p>
+    </div>
+  </section>
+
+  <section class="areas">
+    <div class="areas__container">
+      <p class="eyebrow">Where to bathe</p>
+      <div class="areas__grid">
+        {onsenAreas.map((area) => (
+          <div class="area-card">
+            <span class="area-card__region">{area.region}</span>
+            <h2 class="area-card__name">{area.name}</h2>
+            <span class="area-card__type">{area.type}</span>
+            <p class="area-card__desc">{area.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="highlight">
+    <div class="highlight__container">
+      <div class="highlight__text">
+        <p class="eyebrow">Must-do</p>
+        <h2 class="highlight__title">Sunamushi — the sand bath of Ibusuki.</h2>
+        <p class="highlight__body">
+          At Ibusuki, attendants bury you up to the neck in naturally geothermally heated black
+          sand on the beach. The temperature sits at around 50–55°C. Ten minutes is enough
+          to feel like a new person. It's one of those experiences that sounds odd until
+          you've done it, after which it becomes a mandatory recommendation to everyone you know.
+        </p>
+        <a href="/getting-there/" class="btn">Plan a visit →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  :root {
+    --ash-50: #f5f4f1;
+    --ash-100: #e8e6e0;
+    --ash-300: #b5b1a8;
+    --ash-600: #4a4742;
+    --ash-900: #1a1816;
+    --ember-500: #c14627;
+    --indigo-700: #1a3354;
+    --steam: #fbfaf7;
+    --font-display: 'Fraunces', 'Times New Roman', serif;
+    --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember-500);
+    margin-bottom: 1rem;
+  }
+
+  .page-hero {
+    padding: 6rem 2rem 5rem;
+    background: var(--indigo-700);
+    color: var(--steam);
+  }
+
+  .page-hero__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .page-hero .eyebrow { color: var(--ash-300); }
+
+  .page-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5rem);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--steam);
+    margin: 0 0 1.5rem;
+  }
+
+  .page-hero__lede {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--ash-300);
+    max-width: 600px;
+    margin: 0;
+  }
+
+  .areas {
+    padding: 6rem 2rem;
+    background: var(--steam);
+  }
+
+  .areas__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .areas__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .area-card {
+    padding: 2.5rem 2rem;
+    background: var(--ash-50);
+    border-left: 3px solid var(--indigo-700);
+  }
+
+  .area-card__region {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ember-500);
+  }
+
+  .area-card__name {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: var(--ash-900);
+    margin: 0.5rem 0 0.25rem;
+  }
+
+  .area-card__type {
+    display: block;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--ash-600);
+    margin-bottom: 1rem;
+  }
+
+  .area-card__desc {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--ash-600);
+    margin: 0;
+  }
+
+  .highlight {
+    padding: 8rem 2rem;
+    background: var(--ash-900);
+    color: var(--steam);
+  }
+
+  .highlight__container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .highlight .eyebrow { color: var(--ember-500); }
+
+  .highlight__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--steam);
+    margin: 0 0 2rem;
+  }
+
+  .highlight__body {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: var(--ash-300);
+    margin-bottom: 2.5rem;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    background: var(--steam);
+    color: var(--ash-900);
+    border: 1.5px solid var(--steam);
+    transition: all 0.2s ease;
+  }
+
+  .btn:hover {
+    background: transparent;
+    color: var(--steam);
+  }
+
+  @media (max-width: 768px) {
+    .areas__grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    .page-hero { padding: 4rem 1.5rem 3rem; }
+    .areas, .highlight { padding: 4rem 1.5rem; }
+  }
+</style>
