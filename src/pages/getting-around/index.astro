@@ -1,0 +1,252 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const transport = [
+  {
+    name: 'City Tram',
+    jp: '市電',
+    desc: 'Two lines cover the main sights in Kagoshima City. A one-day pass costs 600 yen and is worth it.',
+    best: 'City sightseeing',
+    icon: '⊟',
+  },
+  {
+    name: 'Sakurajima Ferry',
+    jp: '桜島フェリー',
+    desc: 'Runs 24 hours, every 15 minutes. 200 yen per person. The 15-minute crossing is part of the experience.',
+    best: 'Sakurajima',
+    icon: '≈',
+  },
+  {
+    name: 'Ibusuki no Tamatebako',
+    jp: '指宿のたまて箱',
+    desc: 'A scenic limited-express train from Kagoshima-Chuo to Ibusuki. Reservation required, covered by JR Pass.',
+    best: 'Ibusuki (sand baths)',
+    icon: '→',
+  },
+  {
+    name: 'Rental Car',
+    jp: 'レンタカー',
+    desc: 'Essential for the Satsuma and Osumi peninsulas, Kirishima, and rural areas. International driving permit required.',
+    best: 'Rural exploration',
+    icon: '◻',
+  },
+  {
+    name: 'Highway Bus',
+    jp: '高速バス',
+    details: 'Connects Kagoshima City to other Kyushu cities at a fraction of the shinkansen cost.',
+    best: 'Budget intercity travel',
+    icon: '→',
+  },
+  {
+    name: 'Limousine Bus',
+    jp: 'リムジンバス',
+    desc: 'Airport to Kagoshima-Chuo Station. Runs every 10–15 minutes, takes 40 minutes, costs 250 yen.',
+    best: 'Airport transfers',
+    icon: '→',
+  },
+];
+---
+
+<BaseLayout
+  title="Getting Around"
+  description="How to get around Kagoshima — city trams, the Sakurajima ferry, the Ibusuki Tamatebako train, and rental cars for rural areas."
+  ogType="website"
+>
+  <section class="page-hero">
+    <div class="page-hero__container">
+      <p class="eyebrow">Practical info</p>
+      <h1 class="page-hero__title">Getting around.</h1>
+      <p class="page-hero__lede">
+        Kagoshima City is walkable and well-served by trams.
+        Outside the city, you'll need trains, buses, or a rental car.
+      </p>
+    </div>
+  </section>
+
+  <section class="transport">
+    <div class="transport__container">
+      <p class="eyebrow">How to move</p>
+      <div class="transport__grid">
+        {transport.map((t) => (
+          <div class="transport-card">
+            <div class="transport-card__icon" aria-hidden="true">{t.icon}</div>
+            <div class="transport-card__body">
+              <h2 class="transport-card__name">{t.name}</h2>
+              <span class="transport-card__jp">{t.jp}</span>
+              <p class="transport-card__desc">{t.desc || t.details}</p>
+              <span class="transport-card__best">Best for: {t.best}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="ic-card">
+    <div class="ic-card__container">
+      <p class="eyebrow">Essential tip</p>
+      <h2 class="ic-card__title">Get a Suica or IC card before you arrive.</h2>
+      <p class="ic-card__body">
+        IC cards (Suica, ICOCA, nimoca) work on all trams, buses, and the Sakurajima ferry in
+        Kagoshima. Tap in, tap out. No need to calculate fares or queue for tickets.
+        Load it at any convenience store or station machine.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  :root {
+    --ash-50: #f5f4f1;
+    --ash-100: #e8e6e0;
+    --ash-300: #b5b1a8;
+    --ash-600: #4a4742;
+    --ash-900: #1a1816;
+    --ember-500: #c14627;
+    --ember-700: #8a2f1a;
+    --steam: #fbfaf7;
+    --font-display: 'Fraunces', 'Times New Roman', serif;
+    --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember-500);
+    margin-bottom: 1rem;
+  }
+
+  .page-hero {
+    padding: 6rem 2rem 5rem;
+    background: var(--ash-900);
+    color: var(--steam);
+  }
+
+  .page-hero__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .page-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5rem);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--steam);
+    margin: 0 0 1.5rem;
+  }
+
+  .page-hero__lede {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--ash-300);
+    max-width: 600px;
+    margin: 0;
+  }
+
+  .transport {
+    padding: 6rem 2rem;
+    background: var(--steam);
+  }
+
+  .transport__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .transport__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .transport-card {
+    padding: 2rem;
+    background: white;
+    border: 1px solid var(--ash-100);
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  .transport-card__icon {
+    font-size: 1.5rem;
+    color: var(--ember-500);
+    flex-shrink: 0;
+    width: 2rem;
+    text-align: center;
+  }
+
+  .transport-card__body { flex: 1; }
+
+  .transport-card__name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--ash-900);
+    margin: 0 0 0.25rem;
+  }
+
+  .transport-card__jp {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--ash-300);
+    margin-bottom: 0.75rem;
+  }
+
+  .transport-card__desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--ash-600);
+    margin: 0 0 0.75rem;
+  }
+
+  .transport-card__best {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--ember-500);
+  }
+
+  .ic-card {
+    padding: 8rem 2rem;
+    background: var(--ember-700);
+    color: var(--steam);
+  }
+
+  .ic-card__container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .ic-card .eyebrow { color: #e8e6e0; }
+
+  .ic-card__title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--steam);
+    margin: 0 0 2rem;
+  }
+
+  .ic-card__body {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: rgba(251, 250, 247, 0.8);
+    margin: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .transport__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 640px) {
+    .page-hero { padding: 4rem 1.5rem 3rem; }
+    .transport, .ic-card { padding: 4rem 1.5rem; }
+    .transport__grid { grid-template-columns: 1fr; }
+  }
+</style>

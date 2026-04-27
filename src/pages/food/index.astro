@@ -1,0 +1,249 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const food = await getCollection('food', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+food.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+
+const categories = [
+  {
+    name: 'Kurobuta',
+    desc: 'Kagoshima\'s black pig, bred for over 400 years. Shabu-shabu, tonkatsu, and more.',
+    color: '#8a2f1a',
+  },
+  {
+    name: 'Imo Shochu',
+    desc: 'Sweet potato spirit distilled only in Kagoshima. Earthy, complex, and unlike anything else.',
+    color: '#1a3354',
+  },
+  {
+    name: 'Shirokuma',
+    desc: 'A mountain of shaved ice topped with fruit and condensed milk. A Kagoshima institution since the 1940s.',
+    color: '#4a6b3a',
+  },
+  {
+    name: 'Chicken Nanban',
+    desc: 'Fried chicken in sweet vinegar sauce, topped with tartar. Born in Miyazaki, perfected in Kyushu.',
+    color: '#2a4a6e',
+  },
+];
+---
+
+<BaseLayout
+  title="Food & Drink"
+  description="Kagoshima's food is unmistakably its own — kurobuta black pork, imo shochu, shirokuma shaved ice. A guide to eating well in Japan's south."
+  ogType="website"
+>
+  <section class="page-hero">
+    <div class="page-hero__container">
+      <p class="eyebrow">A taste of the south</p>
+      <h1 class="page-hero__title">Food & drink.</h1>
+      <p class="page-hero__lede">
+        Black pork, sweet potato spirit, shaved ice the size of your head.
+        Kagoshima's cuisine is unmistakably its own.
+      </p>
+    </div>
+  </section>
+
+  <section class="categories">
+    <div class="categories__container">
+      <p class="eyebrow">What to eat</p>
+      <div class="categories__grid">
+        {categories.map((cat) => (
+          <div class="cat-card" style={`border-top-color: ${cat.color}`}>
+            <h2 class="cat-card__name">{cat.name}</h2>
+            <p class="cat-card__desc">{cat.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="articles">
+    <div class="articles__container">
+      <p class="eyebrow">All food guides</p>
+      {food.length > 0 ? (
+        <ul class="articles__grid">
+          {food.map((item) => (
+            <li>
+              <a href={`/food/${item.slug}/`} class="article-card">
+                <h3 class="article-card__title">{item.data.title}</h3>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="empty-state">
+          <p class="empty-state__text">Guides coming soon.</p>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  :root {
+    --ash-50: #f5f4f1;
+    --ash-100: #e8e6e0;
+    --ash-300: #b5b1a8;
+    --ash-600: #4a4742;
+    --ash-900: #1a1816;
+    --ember-500: #c14627;
+    --ember-700: #8a2f1a;
+    --steam: #fbfaf7;
+    --font-display: 'Fraunces', 'Times New Roman', serif;
+    --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember-500);
+    margin-bottom: 1rem;
+  }
+
+  .page-hero {
+    padding: 6rem 2rem 5rem;
+    background: var(--ember-700);
+    color: var(--steam);
+  }
+
+  .page-hero__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .page-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5rem);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--steam);
+    margin: 0 0 1.5rem;
+  }
+
+  .page-hero .eyebrow { color: #e8e6e0; }
+
+  .page-hero__lede {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: rgba(251, 250, 247, 0.8);
+    max-width: 600px;
+    margin: 0;
+  }
+
+  .categories {
+    padding: 6rem 2rem;
+    background: var(--steam);
+  }
+
+  .categories__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .categories__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .cat-card {
+    padding: 2rem 1.5rem;
+    background: white;
+    border-top: 3px solid var(--ash-300);
+    border: 1px solid var(--ash-100);
+    border-top-width: 3px;
+  }
+
+  .cat-card__name {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 400;
+    color: var(--ash-900);
+    margin: 0 0 0.75rem;
+  }
+
+  .cat-card__desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--ash-600);
+    margin: 0;
+  }
+
+  .articles {
+    padding: 6rem 2rem;
+    background: var(--ash-50);
+    border-top: 1px solid var(--ash-100);
+  }
+
+  .articles__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .articles__grid {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .article-card {
+    display: block;
+    padding: 2rem;
+    background: white;
+    text-decoration: none;
+    color: var(--ash-900);
+    border: 1px solid var(--ash-100);
+    transition: all 0.2s;
+  }
+
+  .article-card:hover {
+    border-color: var(--ember-500);
+    transform: translateY(-2px);
+  }
+
+  .article-card__title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  .empty-state {
+    margin-top: 3rem;
+    padding: 4rem 2rem;
+    text-align: center;
+    border: 1px dashed var(--ash-300);
+  }
+
+  .empty-state__text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--ash-300);
+    margin: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .categories__grid { grid-template-columns: repeat(2, 1fr); }
+    .articles__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 640px) {
+    .page-hero { padding: 4rem 1.5rem 3rem; }
+    .categories, .articles { padding: 4rem 1.5rem; }
+    .categories__grid { grid-template-columns: 1fr; }
+    .articles__grid { grid-template-columns: 1fr; }
+  }
+</style>

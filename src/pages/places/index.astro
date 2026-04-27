@@ -1,0 +1,252 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const places = await getCollection('places', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+places.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+---
+
+<BaseLayout
+  title="Places to Visit"
+  description="Discover the best places to visit in Kagoshima — from the active volcano Sakurajima to the ancient forests of Yakushima and beyond."
+  ogType="website"
+>
+  <section class="page-hero">
+    <div class="page-hero__container">
+      <p class="eyebrow">Explore the prefecture</p>
+      <h1 class="page-hero__title">Places to visit.</h1>
+      <p class="page-hero__lede">
+        Kagoshima stretches from a volcano-shadowed city to subtropical islands 600 km to the south.
+        Here's where to go.
+      </p>
+    </div>
+  </section>
+
+  <section class="regions">
+    <div class="regions__container">
+      <p class="eyebrow">Browse by region</p>
+      <div class="regions__grid">
+        <div class="region-card region-card--city">
+          <span class="region-card__label">Region 01</span>
+          <h2 class="region-card__name">Kagoshima City</h2>
+          <p class="region-card__desc">The capital, the volcano, and the gateway to everything south.</p>
+        </div>
+        <div class="region-card region-card--satsuma">
+          <span class="region-card__label">Region 02</span>
+          <h2 class="region-card__name">Satsuma Peninsula</h2>
+          <p class="region-card__desc">Sand baths in Ibusuki and the historic Chiran samurai district.</p>
+        </div>
+        <div class="region-card region-card--kirishima">
+          <span class="region-card__label">Region 03</span>
+          <h2 class="region-card__name">Kirishima</h2>
+          <p class="region-card__desc">Volcanic peaks, ancient shrines, and mountain hot springs.</p>
+        </div>
+        <div class="region-card region-card--islands">
+          <span class="region-card__label">Region 04</span>
+          <h2 class="region-card__name">The Islands</h2>
+          <p class="region-card__desc">Yakushima, Amami Oshima, and the subtropical Satsunan chain.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="articles">
+    <div class="articles__container">
+      <p class="eyebrow">All places</p>
+      {places.length > 0 ? (
+        <ul class="articles__grid">
+          {places.map((place) => (
+            <li>
+              <a href={`/places/${place.slug}/`} class="article-card">
+                <h3 class="article-card__title">{place.data.title}</h3>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="empty-state">
+          <p class="empty-state__text">Articles coming soon.</p>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  :root {
+    --ash-50: #f5f4f1;
+    --ash-100: #e8e6e0;
+    --ash-300: #b5b1a8;
+    --ash-600: #4a4742;
+    --ash-900: #1a1816;
+    --ember-500: #c14627;
+    --ember-700: #8a2f1a;
+    --indigo-700: #1a3354;
+    --steam: #fbfaf7;
+    --font-display: 'Fraunces', 'Times New Roman', serif;
+    --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember-500);
+    margin-bottom: 1rem;
+  }
+
+  /* PAGE HERO */
+  .page-hero {
+    padding: 6rem 2rem 5rem;
+    background: var(--ash-900);
+    color: var(--steam);
+  }
+
+  .page-hero__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .page-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5rem);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--steam);
+    margin: 0 0 1.5rem;
+  }
+
+  .page-hero__lede {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--ash-300);
+    max-width: 600px;
+    margin: 0;
+  }
+
+  /* REGIONS */
+  .regions {
+    padding: 6rem 2rem;
+    background: var(--steam);
+  }
+
+  .regions__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .regions__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .region-card {
+    padding: 2rem 1.5rem;
+    background: var(--ash-50);
+    border-top: 3px solid var(--ash-300);
+  }
+
+  .region-card--city   { border-color: var(--ember-700); }
+  .region-card--satsuma { border-color: var(--ember-500); }
+  .region-card--kirishima { border-color: var(--indigo-700); }
+  .region-card--islands { border-color: #4a6b3a; }
+
+  .region-card__label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ember-500);
+  }
+
+  .region-card__name {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 400;
+    color: var(--ash-900);
+    margin: 0.75rem 0 0.75rem;
+  }
+
+  .region-card__desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--ash-600);
+    margin: 0;
+  }
+
+  /* ARTICLES */
+  .articles {
+    padding: 6rem 2rem;
+    background: white;
+    border-top: 1px solid var(--ash-100);
+  }
+
+  .articles__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .articles__grid {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .article-card {
+    display: block;
+    padding: 2rem;
+    background: var(--ash-50);
+    text-decoration: none;
+    color: var(--ash-900);
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+
+  .article-card:hover {
+    border-color: var(--ember-500);
+    transform: translateY(-2px);
+  }
+
+  .article-card__title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  .empty-state {
+    margin-top: 3rem;
+    padding: 4rem 2rem;
+    text-align: center;
+    border: 1px dashed var(--ash-300);
+  }
+
+  .empty-state__text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--ash-300);
+    margin: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .regions__grid { grid-template-columns: repeat(2, 1fr); }
+    .articles__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 640px) {
+    .page-hero { padding: 4rem 1.5rem 3rem; }
+    .regions, .articles { padding: 4rem 1.5rem; }
+    .regions__grid { grid-template-columns: 1fr; }
+    .articles__grid { grid-template-columns: 1fr; }
+  }
+</style>
