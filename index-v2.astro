@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AccessComparison from '../components/AccessComparison.astro';
 import { getCollection } from 'astro:content';
 
 async function getFeaturedArticle(collectionName: 'places' | 'food' | 'itineraries') {
@@ -18,9 +19,9 @@ const featuredItinerary = await getFeaturedArticle('itineraries');
 const homeStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'TravelGuide',
-  name: 'Kagoshima Travel Guide',
+  name: 'Kagoshima Travel Guide: Access & Transit',
   description:
-    'A complete English-language travel guide to Kagoshima, Japan. Find the best places to visit, local food, hot springs, and travel itineraries.',
+    'Discover how easy it is to reach Kagoshima. Only a 1h 50m flight from Tokyo to explore active volcanoes, UNESCO forests, and sand baths.',
   about: {
     '@type': 'Place',
     name: 'Kagoshima',
@@ -34,8 +35,8 @@ const homeStructuredData = {
 ---
 
 <BaseLayout
-  title="Kagoshima Travel Guide"
-  description="Beyond Tokyo, Kyoto, and Osaka lies Japan's most untamed prefecture. Discover Kagoshima — active volcanoes, UNESCO forests, sand baths, and the home of imo shochu."
+  title="Closer Than You Think: Kagoshima Travel Guide"
+  description="Don't let the map fool you. Kagoshima's active volcanoes and subtropical islands are just a quick flight away from Tokyo or Osaka."
   ogType="website"
   structuredData={homeStructuredData}
 >
@@ -43,32 +44,30 @@ const homeStructuredData = {
   <section class="hero">
     <div class="hero__grid">
       <div class="hero__copy">
-        <p class="hero__eyebrow">A guide for travelers who've already seen Tokyo</p>
+        <p class="hero__eyebrow">A guide to reaching Japan's untamed south</p>
         <h1 class="hero__title">
-          Where Japan
-          <span class="hero__title-accent">still smolders.</span>
+          Closer than
+          <span class="hero__title-accent">you think.</span>
         </h1>
         <p class="hero__lede">
-          At the southern edge of Kyushu, an active volcano breathes ash over a city of 600,000.
-          UNESCO forests stretch south into a chain of subtropical islands. This is Kagoshima —
-          and this guide is for the second-time visitor to Japan ready to leave the Golden Route behind.
+          Don't let the map fool you. Japan's most spectacular volcanic landscapes and subtropical islands aren't days away—they are just a quick morning flight from Tokyo. Leave the Golden Route behind and step into the wild south by noon.
         </p>
         <div class="hero__actions">
-          <a href="/itineraries/" class="btn btn--primary">Plan a trip</a>
-          <a href="/places/" class="btn btn--ghost">Explore the prefecture</a>
+          <a href="#getting-here" class="btn btn--primary">View Access Options</a>
+          <a href="#destinations" class="btn btn--ghost">Travel Times</a>
         </div>
       </div>
 
       <div class="hero__visual">
         <div class="hero__photo hero__photo--main" aria-hidden="true">
-          <span class="hero__photo-label">Sakurajima · 31.585°N</span>
+          <span class="hero__photo-label">Sakurajima Volcano</span>
         </div>
         <div class="hero__photo hero__photo--accent" aria-hidden="true">
-          <span class="hero__photo-label">Yakushima cedar</span>
+          <span class="hero__photo-label">Kagoshima Airport</span>
         </div>
         <div class="hero__metric">
-          <span class="hero__metric-num">880</span>
-          <span class="hero__metric-label">eruptions per year</span>
+          <span class="hero__metric-num">110</span>
+          <span class="hero__metric-label">minutes flight from Tokyo</span>
         </div>
       </div>
     </div>
@@ -79,126 +78,108 @@ const homeStructuredData = {
     </div>
   </section>
 
-  <!-- THREE PILLARS -->
-  <section class="pillars">
-    <div class="pillars__container">
-      <p class="section-eyebrow">Three reasons to come</p>
-      <h2 class="section-title">Not one Japan, but three.</h2>
-
-      <ol class="pillars__list">
-        <li class="pillar">
-          <span class="pillar__number">01</span>
-          <h3 class="pillar__title">The volcano in the bay</h3>
-          <p class="pillar__body">
-            Sakurajima erupts hundreds of times a year, four kilometers from a city center.
-            Locals carry umbrellas for the ash. You'll never see a relationship between a
-            city and its geology like this anywhere else on earth.
-          </p>
-          <a href="/places/sakurajima/" class="pillar__link">See Sakurajima →</a>
-        </li>
-        <li class="pillar">
-          <span class="pillar__number">02</span>
-          <h3 class="pillar__title">Forests older than empires</h3>
-          <p class="pillar__body">
-            Yakushima's cedar trees have stood for thousands of years. The island inspired
-            Princess Mononoke, and walking its mossy ravines feels like walking into the film.
-            A UNESCO World Natural Heritage site since 1993.
-          </p>
-          <a href="/places/yakushima/" class="pillar__link">Visit Yakushima →</a>
-        </li>
-        <li class="pillar">
-          <span class="pillar__number">03</span>
-          <h3 class="pillar__title">A spirit you've never tried</h3>
-          <p class="pillar__body">
-            Imo shochu is distilled from sweet potatoes, and Kagoshima is the only place
-            on earth that does it well. The distilleries are open to visitors. Think single
-            malt territory, but with a flavor profile no scotch can match.
-          </p>
-          <a href="/food/imo-shochu/" class="pillar__link">Taste imo shochu →</a>
-        </li>
-      </ol>
+  <!-- ACCESS COMPARISON -->
+  <section id="getting-here" class="access-section">
+    <div class="access-section__container">
+      <p class="section-eyebrow">Getting to Kagoshima</p>
+      <h2 class="section-title">Skip the long train ride.</h2>
+      <p class="section-lede">
+        Many travelers assume Kagoshima requires a multi-day train journey. In reality, multiple budget airlines (LCCs) connect Tokyo and Osaka directly to Kagoshima daily.
+      </p>
+      
+      <AccessComparison />
+      
     </div>
   </section>
 
-  <!-- GEOGRAPHY -->
-  <section class="geography">
-    <div class="geography__container">
-      <div class="geography__intro">
-        <p class="section-eyebrow">The lay of the land</p>
-        <h2 class="section-title">From volcanic peaks to coral reefs.</h2>
-        <p class="geography__lede">
-          Kagoshima Prefecture stretches from southern Kyushu down through 600 kilometers of
-          islands toward Okinawa. Most travelers focus on the mainland, but the
-          Satsunan Islands hold some of Japan's most unspoiled landscapes.
+  <!-- DESTINATIONS BY TIME -->
+  <section id="destinations" class="transit-times">
+    <div class="transit-times__container">
+      <div class="transit-times__intro">
+        <p class="section-eyebrow">From Basecamp to Adventure</p>
+        <h2 class="section-title">Your transit times from Kagoshima City.</h2>
+        <p class="transit-times__lede">
+          Once you arrive at Kagoshima-Chuo Station, the prefecture's best sights are surprisingly accessible. Here is how long it takes to reach the highlights.
         </p>
       </div>
 
-      <div class="geography__regions">
-        <a href="/places/" class="region region--01">
-          <span class="region__label">Region 01</span>
-          <h3 class="region__name">Kagoshima City</h3>
-          <p class="region__desc">The capital, the volcano, and the gateway to everything south.</p>
+      <div class="transit-cards">
+        <a href="/places/sakurajima/" class="transit-card transit-card--01">
+          <div class="transit-card__header">
+            <span class="transit-card__time">40 mins</span>
+            <span class="transit-card__mode">Tram + Ferry</span>
+          </div>
+          <h3 class="transit-card__name">Sakurajima Volcano</h3>
+          <p class="transit-card__desc">Hop on a city tram to the port, then a 15-minute ferry that runs 24/7 across the bay.</p>
         </a>
-        <a href="/places/" class="region region--02">
-          <span class="region__label">Region 02</span>
-          <h3 class="region__name">Satsuma Peninsula</h3>
-          <p class="region__desc">Sand baths in Ibusuki and the historic Chiran samurai district.</p>
+        <a href="/places/ibusuki/" class="transit-card transit-card--02">
+          <div class="transit-card__header">
+            <span class="transit-card__time">50 mins</span>
+            <span class="transit-card__mode">Express Train</span>
+          </div>
+          <h3 class="transit-card__name">Ibusuki Sand Baths</h3>
+          <p class="transit-card__desc">Ride the scenic "Ibusuki no Tamatebako" limited express train directly down the coast.</p>
         </a>
-        <a href="/places/" class="region region--03">
-          <span class="region__label">Region 03</span>
-          <h3 class="region__name">Kirishima</h3>
-          <p class="region__desc">Volcanic peaks, ancient shrines, and mountain hot springs.</p>
+        <a href="/places/kirishima/" class="transit-card transit-card--03">
+          <div class="transit-card__header">
+            <span class="transit-card__time">55 mins</span>
+            <span class="transit-card__mode">Train / Bus</span>
+          </div>
+          <h3 class="transit-card__name">Kirishima Hot Springs</h3>
+          <p class="transit-card__desc">A quick train ride north into the mountains for ancient shrines and volcanic onsen.</p>
         </a>
-        <a href="/places/" class="region region--04">
-          <span class="region__label">Region 04</span>
-          <h3 class="region__name">The Islands</h3>
-          <p class="region__desc">Yakushima, Amami Oshima, and the subtropical Satsunan chain.</p>
+        <a href="/places/yakushima/" class="transit-card transit-card--04">
+          <div class="transit-card__header">
+            <span class="transit-card__time">1h 50m</span>
+            <span class="transit-card__mode">High-speed Jetfoil</span>
+          </div>
+          <h3 class="transit-card__name">Yakushima (UNESCO)</h3>
+          <p class="transit-card__desc">Departing from Kagoshima Port, the Toppy Jetfoil cuts across the sea to the ancient cedar forests.</p>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- ITINERARIES -->
+  <!-- TIME-OPTIMIZED ITINERARIES -->
   <section class="itineraries-feature">
     <div class="itineraries-feature__container">
       <div class="itineraries-feature__header">
-        <p class="section-eyebrow">Pre-built trips</p>
-        <h2 class="section-title">How long do you have?</h2>
+        <p class="section-eyebrow">Maximize your time</p>
+        <h2 class="section-title">Time-optimized trip plans.</h2>
       </div>
       <ul class="itineraries-feature__list">
         <li class="itin-card itin-card--featured">
           <a href="/itineraries/" class="itin-card__link">
             <div class="itin-card__duration">
-              <span class="itin-card__num">2</span>
-              <span class="itin-card__unit">days</span>
+              <span class="itin-card__num">48</span>
+              <span class="itin-card__unit">hours</span>
             </div>
-            <h3 class="itin-card__title">First-timer's Kagoshima</h3>
+            <h3 class="itin-card__title">The Weekend Dash</h3>
             <p class="itin-card__desc">
-              Sakurajima, Sengan-en, kurobuta dinner in Tenmonkan, and a sand bath in
-              Ibusuki. The essential introduction.
+              Fly in Saturday morning, see the volcano, eat black pork, soak in hot sand, and fly back Sunday night.
             </p>
-            <span class="itin-card__cta">Read the plan →</span>
+            <span class="itin-card__cta">See the schedule →</span>
           </a>
         </li>
         <li class="itin-card">
           <a href="/itineraries/" class="itin-card__link">
             <div class="itin-card__duration">
-              <span class="itin-card__num">5</span>
+              <span class="itin-card__num">3</span>
               <span class="itin-card__unit">days</span>
             </div>
-            <h3 class="itin-card__title">Mainland deep-dive</h3>
-            <p class="itin-card__desc">Add Kirishima, Chiran, and a shochu distillery tour.</p>
+            <h3 class="itin-card__title">The Rental Car Loop</h3>
+            <p class="itin-card__desc">Grab a car at the airport to efficiently cover Kirishima, the city, and the southern peninsula.</p>
             <span class="itin-card__cta">Coming soon</span>
           </a>
         </li>
         <li class="itin-card">
           <a href="/itineraries/" class="itin-card__link">
             <div class="itin-card__duration">
-              <span class="itin-card__num">7</span>
+              <span class="itin-card__num">4</span>
               <span class="itin-card__unit">days</span>
             </div>
-            <h3 class="itin-card__title">Mainland + Yakushima</h3>
-            <p class="itin-card__desc">The complete circuit including the UNESCO forest.</p>
+            <h3 class="itin-card__title">City + Yakushima</h3>
+            <p class="itin-card__desc">Perfectly timed transfers to catch the jetfoil, hike the forests, and return to the mainland.</p>
             <span class="itin-card__cta">Coming soon</span>
           </a>
         </li>
@@ -206,55 +187,6 @@ const homeStructuredData = {
     </div>
   </section>
 
-  <!-- FOOD CULTURE -->
-  <section class="food-feature">
-    <div class="food-feature__container">
-      <div class="food-feature__visual" aria-hidden="true">
-        <div class="food-feature__shape food-feature__shape--1"></div>
-        <div class="food-feature__shape food-feature__shape--2"></div>
-        <div class="food-feature__shape food-feature__shape--3"></div>
-      </div>
-      <div class="food-feature__copy">
-        <p class="section-eyebrow">A taste of the south</p>
-        <h2 class="section-title section-title--reverse">
-          Black pork, sweet potato spirit, and shaved ice the size of your head.
-        </h2>
-        <p class="food-feature__body">
-          Kagoshima's cuisine is unmistakably its own. The kurobuta black pig has been bred
-          here for over 400 years. The imo shochu distilling tradition predates Scotch whisky.
-          And shirokuma — a mountain of shaved ice topped with fruit — was invented in
-          Tenmonkan in the 1940s.
-        </p>
-        <a href="/food/" class="btn btn--primary">Eat your way through →</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRACTICAL -->
-  <section class="practical">
-    <div class="practical__container">
-      <p class="section-eyebrow">Practical info</p>
-      <h2 class="section-title">Getting in, getting around.</h2>
-      <div class="practical__grid">
-        <a href="/getting-there/" class="practical-card">
-          <div class="practical-card__icon" aria-hidden="true">→</div>
-          <h3 class="practical-card__title">Getting there</h3>
-          <p class="practical-card__desc">
-            Shinkansen from Hakata in 1h 20m. Flights from Tokyo in 1h 50m. Ferry options
-            from Osaka and Okinawa.
-          </p>
-        </a>
-        <a href="/getting-around/" class="practical-card">
-          <div class="practical-card__icon" aria-hidden="true">↻</div>
-          <h3 class="practical-card__title">Getting around</h3>
-          <p class="practical-card__desc">
-            City trams, the Sakurajima ferry, the Ibusuki no Tamatebako sightseeing train,
-            and rental cars for the rural south.
-          </p>
-        </a>
-      </div>
-    </div>
-  </section>
 </BaseLayout>
 
 <style>
@@ -308,9 +240,13 @@ const homeStructuredData = {
     margin: 0 0 2rem;
     max-width: 24ch;
   }
-
-  .section-title--reverse {
-    color: var(--steam);
+  
+  .section-lede {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--ash-600);
+    max-width: 800px;
+    margin-bottom: 3rem;
   }
 
   /* Buttons */
@@ -410,7 +346,7 @@ const homeStructuredData = {
     display: block;
     font-style: italic;
     font-weight: 400;
-    color: var(--ember-700);
+    color: var(--indigo-700);
   }
 
   .hero__lede {
@@ -483,7 +419,7 @@ const homeStructuredData = {
     padding: 1.5rem 2rem;
     border: 1px solid var(--ash-300);
     z-index: 2;
-    box-shadow: -8px 8px 0 var(--ember-700);
+    box-shadow: -8px 8px 0 var(--indigo-500);
   }
 
   .hero__metric-num {
@@ -491,7 +427,7 @@ const homeStructuredData = {
     font-family: var(--font-display);
     font-size: 3rem;
     font-weight: 400;
-    color: var(--ember-700);
+    color: var(--indigo-700);
     line-height: 1;
   }
 
@@ -541,101 +477,56 @@ const homeStructuredData = {
     100% { transform: translateY(80px); }
   }
 
-  /* PILLARS */
-  .pillars {
+  /* ACCESS SECTION */
+  .access-section {
     padding: 8rem 2rem;
     background: var(--ash-900);
     color: var(--steam);
   }
 
-  .pillars__container {
+  .access-section__container {
     max-width: 1200px;
     margin: 0 auto;
   }
 
-  .pillars .section-eyebrow { color: var(--ember-500); }
-  .pillars .section-title {
+  .access-section .section-eyebrow { color: var(--ember-500); }
+  .access-section .section-title {
     color: var(--steam);
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
   }
-
-  .pillars__list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3rem;
-  }
-
-  .pillar {
-    border-top: 1px solid var(--ash-600);
-    padding-top: 2rem;
-  }
-
-  .pillar__number {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    color: var(--ember-500);
-    letter-spacing: 0.1em;
-  }
-
-  .pillar__title {
-    font-family: var(--font-display);
-    font-size: 1.75rem;
-    font-weight: 400;
-    line-height: 1.2;
-    color: var(--steam);
-    margin: 1rem 0 1.5rem;
-  }
-
-  .pillar__body {
-    font-size: 1rem;
-    line-height: 1.7;
+  .access-section .section-lede {
     color: var(--ash-300);
-    margin-bottom: 1.5rem;
   }
 
-  .pillar__link {
-    color: var(--steam);
-    text-decoration: none;
-    font-weight: 500;
-    border-bottom: 1px solid var(--ember-500);
-    padding-bottom: 2px;
-    transition: all 0.2s;
-  }
-
-  .pillar__link:hover { color: var(--ember-500); }
-
-  /* GEOGRAPHY */
-  .geography {
+  /* TRANSIT TIMES */
+  .transit-times {
     padding: 8rem 2rem;
     background: var(--steam);
   }
 
-  .geography__container {
+  .transit-times__container {
     max-width: 1200px;
     margin: 0 auto;
   }
 
-  .geography__intro {
+  .transit-times__intro {
     max-width: 700px;
     margin-bottom: 4rem;
   }
 
-  .geography__lede {
+  .transit-times__lede {
     font-size: 1.125rem;
     line-height: 1.6;
     color: var(--ash-600);
   }
 
-  .geography__regions {
+  .transit-cards {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
 
-  .region {
+  .transit-card {
     display: block;
     padding: 2.5rem 2rem;
     background: var(--ash-50);
@@ -647,42 +538,48 @@ const homeStructuredData = {
     overflow: hidden;
   }
 
-  .region:hover {
-    border-color: var(--indigo-700);
+  .transit-card:hover {
+    border-color: var(--ember-500);
     transform: translateY(-2px);
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
   }
 
-  .region::after {
-    content: '→';
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
-    font-size: 1.5rem;
-    color: var(--ash-300);
-    transition: all 0.3s;
+  .transit-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--ash-100);
+    padding-bottom: 1rem;
   }
 
-  .region:hover::after {
-    color: var(--ember-500);
-    transform: translateX(4px);
-  }
-
-  .region__label {
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ember-500);
-  }
-
-  .region__name {
+  .transit-card__time {
     font-family: var(--font-display);
-    font-size: 1.75rem;
+    font-size: 2rem;
+    color: var(--ember-500);
+    line-height: 1;
+  }
+
+  .transit-card__mode {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ash-600);
+    background: var(--ash-100);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  .transit-card__name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
     font-weight: 400;
-    margin: 0.75rem 0 1rem;
+    margin: 0 0 1rem;
     color: var(--ash-900);
   }
 
-  .region__desc {
+  .transit-card__desc {
     font-size: 0.9375rem;
     line-height: 1.6;
     color: var(--ash-600);
@@ -789,136 +686,6 @@ const homeStructuredData = {
     color: var(--ember-700);
   }
 
-  /* FOOD FEATURE */
-  .food-feature {
-    padding: 8rem 2rem;
-    background: var(--ember-700);
-    color: var(--steam);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .food-feature__container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    position: relative;
-    z-index: 1;
-  }
-
-  .food-feature .section-eyebrow {
-    color: var(--ash-100);
-  }
-
-  .food-feature__body {
-    font-size: 1.0625rem;
-    line-height: 1.7;
-    color: var(--ash-100);
-    margin-bottom: 2rem;
-  }
-
-  .food-feature__visual {
-    position: relative;
-    height: 400px;
-  }
-
-  .food-feature__shape {
-    position: absolute;
-    border-radius: 50%;
-  }
-
-  .food-feature__shape--1 {
-    width: 280px;
-    height: 280px;
-    background: var(--ember-500);
-    top: 0;
-    left: 0;
-  }
-
-  .food-feature__shape--2 {
-    width: 180px;
-    height: 180px;
-    background: var(--ash-900);
-    top: 60px;
-    right: 40px;
-  }
-
-  .food-feature__shape--3 {
-    width: 120px;
-    height: 120px;
-    background: var(--steam);
-    bottom: 0;
-    left: 100px;
-    opacity: 0.9;
-  }
-
-  .food-feature .btn--primary {
-    background: var(--steam);
-    color: var(--ash-900);
-    border-color: var(--steam);
-  }
-
-  .food-feature .btn--primary:hover {
-    background: var(--ash-900);
-    color: var(--steam);
-  }
-
-  /* PRACTICAL */
-  .practical {
-    padding: 8rem 2rem;
-    background: var(--steam);
-  }
-
-  .practical__container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .practical__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-top: 3rem;
-  }
-
-  .practical-card {
-    display: block;
-    padding: 3rem;
-    background: white;
-    border: 1px solid var(--ash-100);
-    text-decoration: none;
-    color: var(--ash-900);
-    transition: all 0.2s;
-  }
-
-  .practical-card:hover {
-    border-color: var(--indigo-500);
-    transform: translateY(-2px);
-  }
-
-  .practical-card__icon {
-    font-size: 2rem;
-    color: var(--ember-500);
-    margin-bottom: 1.5rem;
-  }
-
-  .practical-card__title {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 400;
-    margin: 0 0 1rem;
-  }
-
-  .practical-card__desc {
-    font-size: 0.9375rem;
-    line-height: 1.6;
-    color: var(--ash-600);
-    margin: 0;
-  }
-
   /* RESPONSIVE */
   @media (max-width: 1024px) {
     .hero__grid {
@@ -929,25 +696,17 @@ const homeStructuredData = {
       height: 400px;
       order: 2;
     }
-    .pillars__list {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-    .geography__regions { grid-template-columns: 1fr; }
+    .transit-cards { grid-template-columns: 1fr; }
     .itineraries-feature__list { grid-template-columns: 1fr; }
-    .food-feature__container { grid-template-columns: 1fr; }
-    .practical__grid { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 640px) {
     .hero { padding: 3rem 1.5rem 4rem; }
     .hero__title { font-size: clamp(2.5rem, 10vw, 3.5rem); }
 
-    .pillars,
-    .geography,
-    .itineraries-feature,
-    .food-feature,
-    .practical {
+    .access-section,
+    .transit-times,
+    .itineraries-feature {
       padding: 5rem 1.5rem;
     }
 

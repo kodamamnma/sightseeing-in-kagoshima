@@ -1,0 +1,265 @@
+---
+// src/components/AccessComparison.astro
+---
+
+<div class="access-comparison">
+  <div class="cards-container">
+    
+    <!-- Airplane (Recommended) -->
+    <div class="access-card highlight">
+      <div class="card-badge">Fastest & Best Value</div>
+      <div class="card-header airplane">
+        <span class="icon">✈️</span>
+        <h4>Flight</h4>
+        <span class="route">Tokyo (HND/NRT) → Kagoshima</span>
+      </div>
+      <div class="card-body">
+        <div class="info-row">
+          <span class="info-label">Total Time</span>
+          <span class="info-value time">~2h 40m<small>(incl. boarding & transit)</small></span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Estimated Cost (One-way)</span>
+          <span class="info-value price">¥6,000 - ¥47,000<small>(LCCs to Full-Service)</small></span>
+        </div>
+        <div class="features">
+          <span class="feature-tag">Unbeatable speed</span>
+          <span class="feature-tag">Cheap LCC options</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shinkansen -->
+    <div class="access-card">
+      <div class="card-header shinkansen">
+        <span class="icon">🚅</span>
+        <h4>Bullet Train</h4>
+        <span class="route">Tokyo Sta. → Kagoshima-Chuo</span>
+      </div>
+      <div class="card-body">
+        <div class="info-row">
+          <span class="info-label">Total Time</span>
+          <span class="info-value time">~6h 40m<small>(with transfer at Hakata)</small></span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Estimated Cost (One-way)</span>
+          <span class="info-value price">~¥35,000<small>(JR Pass applicable)</small></span>
+        </div>
+        <div class="features">
+          <span class="feature-tag">Punctual</span>
+          <span class="feature-tag">No luggage limits</span>
+          <span class="feature-tag">Scenic ride</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Night Bus -->
+    <div class="access-card">
+      <div class="card-header bus">
+        <span class="icon">🚌</span>
+        <h4>Night Bus</h4>
+        <span class="route">Tokyo → Kagoshima</span>
+      </div>
+      <div class="card-body">
+        <div class="info-row">
+          <span class="info-label">Total Time</span>
+          <span class="info-value time">15 - 18 hours<small>(Overnight travel)</small></span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Estimated Cost (One-way)</span>
+          <span class="info-value price">¥10,000 - ¥20,000<small>(Seasonal)</small></span>
+        </div>
+        <div class="features">
+          <span class="feature-tag">Saves hotel cost</span>
+          <span class="feature-tag">Physically demanding</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
+  <div class="conclusion">
+    💡 <strong>The Verdict:</strong> Unless you are traveling slowly with a JR Pass, <strong>flying</strong> is by far the most logical choice. It turns a grueling cross-country journey into a quick morning hop.
+  </div>
+</div>
+
+<style>
+  .access-comparison {
+    font-family: var(--font-body), sans-serif;
+    width: 100%;
+    margin: 2rem auto;
+  }
+
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .access-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--ash-100);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .access-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+  }
+
+  .access-card.highlight {
+    border: 2px solid var(--indigo-500);
+    transform: scale(1.03);
+    box-shadow: 0 12px 30px rgba(42, 74, 110, 0.15);
+    z-index: 2;
+  }
+  
+  .access-card.highlight:hover {
+    transform: scale(1.03) translateY(-5px);
+  }
+
+  .card-badge {
+    position: absolute;
+    top: 15px;
+    right: -35px;
+    background: var(--ember-500);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 5px 40px;
+    transform: rotate(45deg);
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .card-header {
+    padding: 2rem 1.5rem;
+    text-align: center;
+    color: white;
+  }
+  
+  .card-header.airplane {
+    background: linear-gradient(135deg, var(--indigo-500), var(--indigo-900));
+  }
+  
+  .card-header.shinkansen {
+    background: linear-gradient(135deg, var(--moss-500), #2d4223);
+  }
+  
+  .card-header.bus {
+    background: linear-gradient(135deg, #f2994a, #d47e33);
+  }
+
+  .card-header .icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  }
+
+  .card-header h4 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  .card-header .route {
+    display: block;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    opacity: 0.95;
+    font-weight: 500;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .info-row {
+    margin-bottom: 1.5rem;
+  }
+
+  .info-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ash-600);
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+  }
+
+  .info-value {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--ash-900);
+    line-height: 1.2;
+  }
+  
+  .info-value.time {
+    color: var(--ember-700); 
+  }
+
+  .info-value small {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--ash-600);
+    font-weight: normal;
+    margin-top: 0.2rem;
+  }
+
+  .features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--ash-100);
+  }
+
+  .feature-tag {
+    background: var(--ash-50);
+    color: var(--ash-600);
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  
+  .conclusion {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: var(--indigo-50);
+    border-left: 4px solid var(--indigo-500);
+    border-radius: 0 8px 8px 0;
+    font-size: 1.05rem;
+    color: var(--ash-900);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .access-card.highlight {
+      transform: none;
+      z-index: 1;
+    }
+    .access-card.highlight:hover {
+      transform: translateY(-5px);
+    }
+    .cards-container {
+      gap: 2rem;
+    }
+  }
+</style>
